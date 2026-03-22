@@ -325,7 +325,7 @@ export function ARViewer({ product, onClose, activeImage }: ARViewerProps) {
   function Overlay({ rect, objectPos='center' }: { rect: ClothingRect; objectPos?: string }) {
     return (
       <motion.div
-        initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
+        initial={{ opacity: 1, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 1 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
         className="absolute pointer-events-none"
         style={{ left: rect.left, top: rect.top+offsetY, width: rect.width*scale, height: rect.height*scale, overflow:'hidden' }}

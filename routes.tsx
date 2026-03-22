@@ -4,7 +4,18 @@ import { Home } from './pages/Home';
 import { ProductDetail } from './pages/ProductDetail';
 import { Cart } from './pages/Cart';
 
+import { Login } from './pages/Login';
+import { Register } from './pages/Register';
+
 export const router = createBrowserRouter([
+  {
+    path: '/login',
+    Component: Login,
+  },
+  {
+    path: '/register',
+    Component: Register,
+  },
   {
     path: '/',
     Component: Layout,

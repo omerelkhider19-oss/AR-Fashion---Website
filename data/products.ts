@@ -99,7 +99,7 @@ export const products: Product[] = [
     price: 119,
     category: 'Active-wear',
     description: 'Moisture-wicking fabric designed for intense workouts. Flexible and breathable.',
-    image: 'https://similarpng.com/_next/image?url=https%3A%2F%2Fimage.similarpng.com%2Ffile%2Fsimilarpng%2Fvery-thumbnail%2F2021%2F09%2FHoodie-and-pants-in-black-men%27s-sportswear-on-transparent-background-PNG.png&w=1080&q=75',
+    image: '/gym-set01.png',
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     measurements: {
       chest: '32-40 inches',

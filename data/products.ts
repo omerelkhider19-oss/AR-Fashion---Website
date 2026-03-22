@@ -99,7 +99,7 @@ export const products: Product[] = [
     price: 119,
     category: 'Active-wear',
     description: 'Moisture-wicking fabric designed for intense workouts. Flexible and breathable.',
-    image: 'images/gym-set01.png',
+    image: './images/gym-set01.png',
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     measurements: {
       chest: '32-40 inches',

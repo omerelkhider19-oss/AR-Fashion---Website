@@ -331,7 +331,7 @@ export function ARViewer({ product, onClose, activeImage }: ARViewerProps) {
         style={{ left: rect.left, top: rect.top+offsetY, width: rect.width*scale, height: rect.height*scale, overflow:'hidden' }}
       >
         <img src={displayImage} alt="" className="w-full h-full"
-          style={{ objectFit:'contain', objectPosition: objectPos, filter:'brightness(1.04) contrast(1.04) drop-shadow(0 4px 20px rgba(0,0,0,0.35))', opacity:0.90 }}
+          style={{ objectFit:'contain', objectPosition: objectPos, filter:'brightness(1.04) contrast(1.04) drop-shadow(0 4px 20px rgba(0,0,0,0.35))', opacity:1 }}
         />
         <div className="absolute inset-0 pointer-events-none" style={{ background:'linear-gradient(180deg,rgba(255,255,255,0.10) 0%,transparent 35%)' }} />
       </motion.div>

@@ -225,7 +225,14 @@ export function ARViewer({ product, onClose, activeImage }: ARViewerProps) {
     });
   }
 
+  const overlayThrottleRef = useRef(0);
+
   function calcOverlays(lms: PoseLandmark[], cw: number, ch: number) {
+    // Only update state every 3 frames — prevents overlay div from unmounting/remounting
+    // every single frame which was causing the fade-flicker
+    overlayThrottleRef.current++;
+    if (overlayThrottleRef.current % 3 !== 0) return;
+
     const ls=lms[LM.LEFT_SHOULDER], rs=lms[LM.RIGHT_SHOULDER];
     const lh=lms[LM.LEFT_HIP], rh=lms[LM.RIGHT_HIP];
     const lk=lms[LM.LEFT_KNEE], rk=lms[LM.RIGHT_KNEE];
@@ -323,18 +330,32 @@ export function ARViewer({ product, onClose, activeImage }: ARViewerProps) {
   }, []);
 
   function Overlay({ rect, objectPos='center' }: { rect: ClothingRect; objectPos?: string }) {
+    // Plain div — NOT motion.div — so opacity never re-animates on every rect update
     return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
+      <div
         className="absolute pointer-events-none"
-        style={{ left: rect.left, top: rect.top+offsetY, width: rect.width*scale, height: rect.height*scale, overflow:'hidden' }}
+        style={{
+          left: rect.left,
+          top: rect.top + offsetY,
+          width: rect.width * scale,
+          height: rect.height * scale,
+          overflow: 'hidden',
+          opacity: 1,
+        }}
       >
-        <img src={displayImage} alt="" className="w-full h-full"
-          style={{ objectFit:'contain', objectPosition: objectPos, filter:'brightness(1.04) contrast(1.04) drop-shadow(0 4px 20px rgba(0,0,0,0.35))', opacity:0.90 }}
+        <img
+          src={displayImage}
+          alt=""
+          className="w-full h-full"
+          style={{
+            objectFit: 'contain',
+            objectPosition: objectPos,
+            filter: 'brightness(1.05) contrast(1.05) drop-shadow(0 4px 20px rgba(0,0,0,0.35))',
+            opacity: 1,
+            display: 'block',
+          }}
         />
-        <div className="absolute inset-0 pointer-events-none" style={{ background:'linear-gradient(180deg,rgba(255,255,255,0.10) 0%,transparent 35%)' }} />
-      </motion.div>
+      </div>
     );
   }
 
@@ -360,34 +381,30 @@ export function ARViewer({ product, onClose, activeImage }: ARViewerProps) {
       {/* Skeleton */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" style={{ transform:'scaleX(-1)' }} />
 
-      {/* Overlays */}
-      <AnimatePresence>
-        {status === 'detected' && (
-          <>
-            {upperRect && <Overlay rect={upperRect} />}
-            {lowerRect && <Overlay rect={lowerRect} />}
-            {fullRect  && <Overlay rect={fullRect} />}
-            {shoeRect  && <Overlay rect={shoeRect} />}
+      {/* Overlays — plain divs, no motion animation to avoid per-frame flicker */}
+      {status === 'detected' && (
+        <>
+          {upperRect && <Overlay rect={upperRect} />}
+          {lowerRect && <Overlay rect={lowerRect} />}
+          {fullRect  && <Overlay rect={fullRect} />}
+          {shoeRect  && <Overlay rect={shoeRect} />}
 
-            {/* Size badge anchored to whichever overlay is showing */}
-            {measurements && (upperRect || fullRect) && (() => {
-              const r = upperRect ?? fullRect!;
-              return (
-                <motion.div
-                  initial={{ scale:0, opacity:0 }} animate={{ scale:1, opacity:1 }}
-                  transition={{ delay:0.4, type:'spring' }}
-                  className="absolute pointer-events-none"
-                  style={{ left: r.left + r.width*scale/2, top: r.top+offsetY-44, transform:'translateX(-50%)' }}
-                >
-                  <div className="bg-gradient-to-r from-emerald-500 to-green-400 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg whitespace-nowrap">
-                    &#10003; Size {measurements.recommendedSize}
-                  </div>
-                </motion.div>
-              );
-            })()}
-          </>
-        )}
-      </AnimatePresence>
+          {/* Size badge */}
+          {measurements && (upperRect || fullRect) && (() => {
+            const r = upperRect ?? fullRect!;
+            return (
+              <div
+                className="absolute pointer-events-none"
+                style={{ left: r.left + r.width*scale/2, top: r.top+offsetY-44, transform:'translateX(-50%)' }}
+              >
+                <div className="bg-gradient-to-r from-emerald-500 to-green-400 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg whitespace-nowrap">
+                  &#10003; Size {measurements.recommendedSize}
+                </div>
+              </div>
+            );
+          })()}
+        </>
+      )}
 
       {/* Scan line */}
       {(status==='scanning'||status==='loading-model') && (

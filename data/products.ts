@@ -88,7 +88,7 @@ export const products: Product[] = [
     price: 129,
     category: 'Footwear',
     description: 'Timeless sneaker design with premium materials. Comfortable for all-day wear.',
-    image: 'https://static.vecteezy.com/system/resources/thumbnails/066/763/739/small/render-colorful-sport-sneakers-with-transparent-background-png.pngIwd2hpdGV8ZW58MXx8fHwxNzczNjg0Nzc3fDA&ixlib=rb-4.1.0&q=80&w=1080',
+    image: 'https://static.vecteezy.com/system/resources/thumbnails/066/763/605/small/3d-render-colorful-sport-sneakers-with-transparent-background-png.png',
     images: ['https://static.vecteezy.com/system/resources/thumbnails/066/763/739/small/render-colorful-sport-sneakers-with-transparent-background-png.png', 'https://static.vecteezy.com/system/resources/thumbnails/066/763/605/small/3d-render-colorful-sport-sneakers-with-transparent-background-png.png', ],
     sizes: ['6', '7', '8', '9', '10', '11', '12'],
     arAvailable: true,
@@ -99,7 +99,7 @@ export const products: Product[] = [
     price: 119,
     category: 'Active-wear',
     description: 'Moisture-wicking fabric designed for intense workouts. Flexible and breathable.',
-    image: '/gym-set01.png',
+    image: 'images/gym-set01.png',
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     measurements: {
       chest: '32-40 inches',

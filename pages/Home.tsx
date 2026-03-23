@@ -23,6 +23,10 @@ export function Home() {
           </p>
           <div className="flex gap-4">
             <div className="bg-white/10 backdrop-blur-sm px-6 py-3 rounded-lg">
+              <div className="text-3xl">1000+</div>
+              <div className="text-sm text-purple-200">Styles</div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm px-6 py-3 rounded-lg">
               <div className="text-3xl">AR</div>
               <div className="text-sm text-purple-200">Try-On</div>
             </div>
